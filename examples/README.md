@@ -1,103 +1,101 @@
-# Caffe‚ğ—p‚¢‚½‰æ‘œ•ª—Ş
-ƒTƒ“ƒvƒ‹ƒf[ƒ^‚Í—pˆÓ‚µ‚Ä‚¢‚Ü‚¹‚ñDŠe‰æ‘œƒf[ƒ^‚ÌƒpƒX‚Æƒ‰ƒxƒ‹‚ğ‹L‚µ‚½train.txt‚Æval.txt‚Í‘‚«•û‚ÌQl‚Ü‚Å‚ÉƒAƒbƒv‚µ‚Ä‚¢‚Ü‚·D
+# Caffeã‚’ç”¨ã„ãŸç”»åƒåˆ†é¡
+ã‚µãƒ³ãƒ—ãƒ«ãƒ‡ãƒ¼ã‚¿ã¯ç”¨æ„ã—ã¦ã„ã¾ã›ã‚“ï¼
 
-## 0. Šeíƒtƒ@ƒCƒ‹‚É‚Â‚¢‚Ä
-caffe/examples/imagenet‚Ìƒtƒ@ƒCƒ‹‚ğŠî‚É‚µ‚Ä‚¢‚Ü‚·
+å„ç”»åƒãƒ‡ãƒ¼ã‚¿ã®ãƒ‘ã‚¹ã¨ãƒ©ãƒ™ãƒ«ã‚’è¨˜ã—ãŸtrain.txtã¨val.txtã¯æ›¸ãæ–¹ã®å‚è€ƒã¾ã§ã«ã‚¢ãƒƒãƒ—ã—ã¦ã„ã¾ã™ï¼
 
-## 1. ŠÂ‹«‚É‚Â‚¢‚Ä
-ƒ\[ƒXƒR[ƒh‚ÍCˆÈ‰º‚Ì‚æ‚¤‚É”z’u‚µ‚Ü‚µ‚½D
-•½‹Ï‰æ‘œ‚ğg—p‚·‚é•û–@‚É‚Â‚¢‚Ä‚ÍC†–Ê‚Ì“s‡ãŠ„ˆ¤‚µ‚½‚½‚ßC‹L‚µ‚Ä‚¢‚Ü‚¹‚ñD
+## 0. å„ç¨®ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¤ã„ã¦
+caffe/examples/imagenetã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’åŸºã«ã—ã¦ã„ã¾ã™.
 
-caffe/
-„¥„Ÿ„Ÿ downloadData/
-„    „¤„Ÿ„Ÿ CT/
-„         „¥„Ÿ„Ÿ Brain/
-„         „    „¥„Ÿ„Ÿ TCGA-14-0783-0000.png
-„         „    „¥„Ÿ„Ÿ TCGA-14-0783-0001.png
-„         „                   ...
-„         „¥„Ÿ„Ÿ Chest/
-„         „    „¥„Ÿ„Ÿ AMC-002-0000.png
-„         „    „¥„Ÿ„Ÿ AMC-002-0001.png
-„         „                   ...
-„         „¥„Ÿ„Ÿ train.txt
-„         „¤„Ÿ„Ÿ val.txt
-„¤„Ÿ„Ÿ examples/
-     „¤„Ÿ„Ÿ jamit/
-          „¥„Ÿ„Ÿ category.txt
-          „¥„Ÿ„Ÿ classify.py
-          „¥„Ÿ„Ÿ convert_binaryproto_to_npy.py
-          „¥„Ÿ„Ÿ create_lmdb.sh
-          „¥„Ÿ„Ÿ deploy.prototxt
-          „¥„Ÿ„Ÿ deploy_vTL.prototxt
-          „¥„Ÿ„Ÿ make_mean_image.sh
-          „¥„Ÿ„Ÿ plot_training_log.py
-          „¥„Ÿ„Ÿ solver.prototxt
-          „¥„Ÿ„Ÿ solver_vTL.prototxt
-          „¥„Ÿ„Ÿ train_val.prototxt
-          „¤„Ÿ„Ÿ train_val_vTL.prototxt
+## 1. ç’°å¢ƒã«ã¤ã„ã¦
+ç”»åƒãƒ‡ãƒ¼ã‚¿ã¨ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã¯ï¼Œä»¥ä¸‹ã®ã‚ˆã†ã«é…ç½®ã—ã¾ã—ãŸï¼
 
-## 2. ƒf[ƒ^ƒx[ƒX‚Ìì¬
-create_lmdb.sh‚ÌƒpƒX‚Ìİ’èC‰æ‘œƒfƒBƒŒƒNƒgƒŠ‚Ìw’èCƒf[ƒ^ƒx[ƒX–¼‚Ìw’è‚ğ©•ª‚ÌŠÂ‹«‚É‡‚í‚¹‚Ä‘‚«Š·‚¦Ccaffe’¼‰º‚ÅˆÈ‰º‚ÌƒRƒ}ƒ“ƒh‚ğÀs‚·‚éD
+å¹³å‡ç”»åƒã‚’ä½¿ç”¨ã™ã‚‹æ–¹æ³•ã«ã¤ã„ã¦ã¯ï¼Œç´™é¢ã®éƒ½åˆä¸Šå‰²æ„›ã—ãŸãŸã‚ï¼Œè¨˜ã—ã¦ã„ã¾ã›ã‚“ï¼
+
+> caffe/ Â 
+>>  â”œâ”€â”€ downloadData/  
+>>>      â”œâ”€â”€ CT/ #ç”»åƒãƒ‡ãƒ¼ã‚¿  
+>>>      â”œâ”€â”€ train.txt  
+>>>      â””â”€â”€ val.txt  
+>>  â””â”€â”€ examples/  
+>>>      â””â”€â”€ jamit/ #ã‚µãƒ³ãƒ—ãƒ«ä¸€å¼  
+
+## 2. ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ä½œæˆ
+create_lmdb.shã®ãƒ‘ã‚¹ã®è¨­å®šï¼Œç”»åƒãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®æŒ‡å®šï¼Œãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã®æŒ‡å®šã‚’è‡ªåˆ†ã®ç’°å¢ƒã«åˆã‚ã›ã¦æ›¸ãæ›ãˆï¼Œcaffeç›´ä¸‹ã§ä»¥ä¸‹ã®ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ï¼
 
 `./examples/jamit/create_lmdb.sh`
 
 
-## 3. ƒlƒbƒgƒ[ƒN’è‹`ƒtƒ@ƒCƒ‹‚Ì€”õ
-* train_val.prototxt‚ªƒlƒbƒgƒ[ƒN’è‹`ƒtƒ@ƒCƒ‹D
-* ’è‹`ƒtƒ@ƒCƒ‹‚Ì"data_param"‚Ì"source"‚Ì‰ÓŠ‚ğCì¬‚µ‚½ƒf[ƒ^ƒx[ƒX–¼‚É•ÏX‚·‚éD
-* layer name "fc8"‚Ì"num_output"‚Í2‚Æ‚·‚éD
-* batch size‚âô‚İ‚İ‘w‚ÌƒtƒBƒ‹ƒ^ƒTƒCƒY‚È‚Ç‚àCƒlƒbƒgƒ[ƒN’è‹`ƒtƒ@ƒCƒ‹‚Åw’è‚·‚éD
+## 3. ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®æº–å‚™
+* train_val.prototxtãŒãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ï¼
+* å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®"data_param"ã®"source"ã®ç®‡æ‰€ã‚’ï¼Œä½œæˆã—ãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åã«å¤‰æ›´ã™ã‚‹ï¼
+* layer name "fc8"ã®"num_output"ã¯2ã¨ã™ã‚‹ï¼
+* batch sizeã‚„ç•³ã¿è¾¼ã¿å±¤ã®ãƒ•ã‚£ãƒ«ã‚¿ã‚µã‚¤ã‚ºãªã©ã‚‚ï¼Œãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã§æŒ‡å®šã™ã‚‹ï¼
 
-## 4. Solver‚Ì€”õ
-* solver.prototxt‚Å’è‹`‚·‚é
-* ƒlƒbƒgƒ[ƒN’è‹`ƒtƒ@ƒCƒ‹ƒpƒX‚ğw’è‚µCŠeíƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚éD
+## 4. Solverã®æº–å‚™
+* solver.prototxtã§å®šç¾©ã™ã‚‹
+* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ï¼Œå„ç¨®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹ï¼
 
-## 5. ƒ‚ƒfƒ‹‚ÌŠwK
-caffe trainƒRƒ}ƒ“ƒh‚ğ—˜—p‚µ‚Äƒ‚ƒfƒ‹‚ÌŠwK‚ğÀs‚·‚éD
-ƒ‚ƒfƒ‹‚ğ•Û‘¶‚·‚émodelsƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚µ‚Ä‚¢‚È‚¢ê‡‚ÍCì¬‚µ‚Ä‚¨‚­D
+## 5. ãƒ¢ãƒ‡ãƒ«ã®å­¦ç¿’
+caffe trainã‚³ãƒãƒ³ãƒ‰ã‚’åˆ©ç”¨ã—ã¦ãƒ¢ãƒ‡ãƒ«ã®å­¦ç¿’ã‚’å®Ÿè¡Œã™ã‚‹ï¼
+
+ãƒ¢ãƒ‡ãƒ«ã‚’ä¿å­˜ã™ã‚‹modelsãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆã—ã¦ã„ãªã„å ´åˆã¯ï¼Œä½œæˆã—ã¦ãŠãï¼
+
 `mkdir examples/jamit/models`
 
-caffe’¼‰º‚ÅˆÈ‰º‚ÌƒRƒ}ƒ“ƒh‚ğÀs‚·‚éD
+caffeç›´ä¸‹ã§ä»¥ä¸‹ã®ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ï¼
 
-`caffe train --solver=./examples/jamit/solver.prototxt --gpu=0`
+    caffe train --solver=./examples/jamit/solver.prototxt 
+                --gpu=0
 
-ŠwK‚âƒeƒXƒg‚ÌƒOƒ‰ƒt‚ğì¬‚µ‚½‚¢ê‡‚É‚ÍCƒƒOƒtƒ@ƒCƒ‹‚ğì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ÉƒRƒs[‚µCplot_training_log.py‚ğ—p‚¢‚Äì¬‚·‚éD
+å­¦ç¿’ã‚„ãƒ†ã‚¹ãƒˆã®ã‚°ãƒ©ãƒ•ã‚’ä½œæˆã—ãŸã„å ´åˆã«ã¯ï¼Œãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ã‚³ãƒ”ãƒ¼ã—ï¼Œplot_training_log.pyã‚’ç”¨ã„ã¦ä½œæˆã™ã‚‹ï¼
 
-`cd examples/jamit/`
-`cp /tmp/caffe.INFO  ./`
-`python plot_training_log.py 6 save.png caffe.INFO`
+    cd examples/jamit/
+    cp /tmp/caffe.INFO  ./
+    python plot_training_log.py 6 save.png caffe.INFO
 
-ˆø”‚Éw’è‚µ‚½6‚Í"Train loss  vs. Iters"‚ÌƒOƒ‰ƒtƒ^ƒCƒv‚ğì¬‚·‚éƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éD‚»‚Ì‘¼‚Ìƒ^ƒCƒv‚Í`python plot_training_log.py`‚ÅŠm”F‚Å‚«‚éD
+å¼•æ•°ã«æŒ‡å®šã—ãŸ6ã¯"Train loss  vs. Iters"ã®ã‚°ãƒ©ãƒ•ã‚¿ã‚¤ãƒ—ã‚’ä½œæˆã™ã‚‹ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§ã‚ã‚‹ï¼
 
-## 6. ‰æ‘œ•ª—ŞƒeƒXƒg‚ÌÀs
-ƒNƒ‰ƒXƒ‰ƒxƒ‹‚ÆƒJƒeƒSƒŠ–¼‚ğ‹L‚µ‚½ƒeƒLƒXƒgƒtƒ@ƒCƒ‹(category.txt)‚ÆƒeƒXƒg‰æ‘œ(test.png)‚ğ€”õ‚µCclassify.py‚ğ—p‚¢‚Ä•ª—ŞƒeƒXƒg‚ğÀs‚·‚éD
+ãã®ä»–ã®ã‚¿ã‚¤ãƒ—ã¯`python plot_training_log.py`ã§ç¢ºèªã§ãã‚‹ï¼
 
-`python classify.py --model_def=deploy.prototxt --pretrained_model=./models/jamit_train_iter_5000.caffemodel test.png out.npy  category.txt`
+## 6. ç”»åƒåˆ†é¡ãƒ†ã‚¹ãƒˆã®å®Ÿè¡Œ
+ã‚¯ãƒ©ã‚¹ãƒ©ãƒ™ãƒ«ã¨ã‚«ãƒ†ã‚´ãƒªåã‚’è¨˜ã—ãŸãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«(category.txt)ã¨ãƒ†ã‚¹ãƒˆç”»åƒ(test.png)ã‚’æº–å‚™ã—ï¼Œclassify.pyã‚’ç”¨ã„ã¦åˆ†é¡ãƒ†ã‚¹ãƒˆã‚’å®Ÿè¡Œã™ã‚‹ï¼
 
-## 7. “]ˆÚŠwK‚É‚Â‚¢‚Ä
-“]ˆÚŠwK‚ğ‚·‚éê‡‚É‚ÍCŠwKÏ‚İƒ‚ƒfƒ‹‚ÌƒŒƒCƒ„[–¼‚Æd•¡‚µ‚È‚¢‚æ‚¤‚ÉCÅŒã‚Ì‘SŒ‹‡‘whfc8h‚ğ•Ê‚Ì–¼‘O‚É•ÏX‚·‚é•K—v‚ª‚ ‚éD“]ˆÚŠwK—p‚Éˆê•”•ÏX‚µ‚½ƒtƒ@ƒCƒ‹‚Ì—á‚ÍˆÈ‰º‚Ì’Ê‚è‚Å‚ ‚éD
+    python classify.py --model_def=deploy.prototxt 
+                       --pretrained_model=./models/jamit_train_iter_5000.caffemodel 
+                       test.png out.npy  category.txt
 
-* solver_vTL.prototxt (QÆ‚·‚é’è‹`ƒtƒ@ƒCƒ‹Cƒ‚ƒfƒ‹–¼‚ğ•ÏX)
-* train_val_vTL.prototxt (fc8‚ğfc8tl‚É•ÏX)
-* deploy_vTL.prototxt (fc8‚ğfc8tl‚É•ÏX)
+## 7. è»¢ç§»å­¦ç¿’ã«ã¤ã„ã¦
+è»¢ç§»å­¦ç¿’ã‚’ã™ã‚‹å ´åˆã«ã¯ï¼Œå­¦ç¿’æ¸ˆã¿ãƒ¢ãƒ‡ãƒ«ã®ãƒ¬ã‚¤ãƒ¤ãƒ¼åã¨é‡è¤‡ã—ãªã„ã‚ˆã†ã«ï¼Œæœ€å¾Œã®å…¨çµåˆå±¤â€fc8â€ã‚’åˆ¥ã®åå‰ã«å¤‰æ›´ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ï¼è»¢ç§»å­¦ç¿’ç”¨ã«ä¸€éƒ¨å¤‰æ›´ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã®ä¾‹ã¯ä»¥ä¸‹ã®é€šã‚Šã§ã‚ã‚‹ï¼
 
-‚Ü‚½CÀs‚ÍˆÈ‰º‚Ì’Ê‚è‚Å‚ ‚éD
-`caffe train --solver=./examples/jamit/solver_vTL.prototxt --weights=./models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel --gpu=0`
+* solver_vTL.prototxt (å‚ç…§ã™ã‚‹å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ï¼Œãƒ¢ãƒ‡ãƒ«åã‚’å¤‰æ›´)
+* train_val_vTL.prototxt (fc8ã‚’fc8tlã«å¤‰æ›´)
+* deploy_vTL.prototxt (fc8ã‚’fc8tlã«å¤‰æ›´)
 
-## 8. •½‹Ï‰æ‘œ‚Ìì¬‚Æg—p
+ã¾ãŸï¼Œå®Ÿè¡Œã¯ä»¥ä¸‹ã®é€šã‚Šã§ã‚ã‚‹ï¼
 
-–Ê‚Å‚ÍCƒy[ƒW”‚Ì“s‡ãC•½‹Ï‰æ‘œ‚Ìì¬‚Æg—p‚É‚Â‚¢‚Ä‚ÍŠ„ˆ¤‚³‚¹‚Ä‚¢‚½‚¾‚¢‚½D
-•½‹Ï‰æ‘œ‚ğg—p‚·‚éê‡‚ÍCˆÈ‰º‚Ìˆ—‚ğ“K‹X’Ç‰Á‚·‚ê‚Î‚æ‚¢D
-(1) make_mean_image.sh‚ğ—p‚¢‚ÄC•½‹Ï‰æ‘œ(binaryprotoŒ`®)‚ğì¬‚·‚é(caffe/’¼‰º)
+    caffe train --solver=./examples/jamit/solver_vTL.prototxt 
+                --weights=./models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel 
+                --gpu=0
+
+## 8. å¹³å‡ç”»åƒã®ä½œæˆã¨ä½¿ç”¨
+
+èªŒé¢ã§ã¯ï¼Œãƒšãƒ¼ã‚¸æ•°ã®éƒ½åˆä¸Šï¼Œå¹³å‡ç”»åƒã®ä½œæˆã¨ä½¿ç”¨ã«ã¤ã„ã¦ã¯å‰²æ„›ã•ã›ã¦ã„ãŸã ã„ãŸï¼
+
+å¹³å‡ç”»åƒã‚’ä½¿ç”¨ã™ã‚‹å ´åˆã¯ï¼Œä»¥ä¸‹ã®å‡¦ç†ã‚’é©å®œè¿½åŠ ã™ã‚Œã°ã‚ˆã„ï¼
+
+(1) make_mean_image.shã‚’ç”¨ã„ã¦ï¼Œå¹³å‡ç”»åƒ(binaryprotoå½¢å¼)ã‚’ä½œæˆã™ã‚‹(caffe/ç›´ä¸‹)
 
 `./examples/jamit/make_mean_image.sh `
 
-(2) convert_binaryproto_to_npy.py‚ğ—p‚¢‚ÄCbinaryprotoŒ`®‚ğnpyŒ`®‚É•ÏX‚·‚é(examples/jamit/’¼‰º)
+(2) convert_binaryproto_to_npy.pyã‚’ç”¨ã„ã¦ï¼Œbinaryprotoå½¢å¼ã‚’npyå½¢å¼ã«å¤‰æ›´ã™ã‚‹(examples/jamit/ç›´ä¸‹)
 
 `python convert_binaryproto_to_npy.py jamit_mean.binaryproto jamit_mean.npy`
 
-(3) ƒlƒbƒgƒ[ƒN’è‹`ƒtƒ@ƒCƒ‹train_val.prototxt‚Ì•½‹Ï‰æ‘œ‚Ö‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ÌƒRƒƒ“ƒg‚ğŠO‚·
+(3) ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«train_val.prototxtã®å¹³å‡ç”»åƒã¸ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’å¤–ã™
 
-(4) ŠwKÀsŒãC•ª—ŞƒeƒXƒg‚Åg—p‚·‚éclassify.py‚Ì•½‹Ï‰æ‘œ‚Ì“Ç‚İ‚İ–½—ß‚ÌƒRƒƒ“ƒg‚ğŠO‚µCÀs‚É•½‹Ï‰æ‘œ‚ğw’è‚·‚éD(examples/jamit/’¼‰º)
+(4) å­¦ç¿’å®Ÿè¡Œå¾Œï¼Œåˆ†é¡ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹classify.pyã®å¹³å‡ç”»åƒã®èª­ã¿è¾¼ã¿å‘½ä»¤ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’å¤–ã—ï¼Œå®Ÿè¡Œæ™‚ã«å¹³å‡ç”»åƒã‚’æŒ‡å®šã™ã‚‹ï¼(examples/jamit/ç›´ä¸‹)
 
-`python classify.py --model_def=deploy.prototxt --mean_file=jamit_mean.npy --pretrained_model=./models/jamit_train_iter_5000.caffemodel test.png out.npy  category.txt`
+    python classify.py --model_def=deploy.prototxt 
+                       --mean_file=jamit_mean.npy 
+                       --pretrained_model=./models/jamit_train_iter_5000.caffemodel 
+                       test.png out.npy  category.txt
