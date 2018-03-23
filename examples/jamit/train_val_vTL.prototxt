@@ -1,0 +1,401 @@
+#
+# 学習および評価用ネットワーク定義ファイル(転移学習用)
+# $CAFFE_ROOT/models/bvlc_reference_caffenet/train_val.prototxtを改変
+# 
+# Data Layer: http://caffe.berkeleyvision.org/tutorial/data.html
+# Convolution Layer: http://caffe.berkeleyvision.org/tutorial/layers/convolution.html
+# ReLU Layer: http://caffe.berkeleyvision.org/tutorial/layers/relu.html
+# Pooling Layer: http://caffe.berkeleyvision.org/tutorial/layers/pooling.html
+# Local Response Normalization (LRN) : http://caffe.berkeleyvision.org/tutorial/layers/lrn.html
+# Inner Product Layer : http://caffe.berkeleyvision.org/tutorial/layers/innerproduct.html
+# Dropout Layer : http://caffe.berkeleyvision.org/tutorial/layers/dropout.html
+# Accuracy and Top-k : http://caffe.berkeleyvision.org/tutorial/layers/accuracy.html
+# Softmax with Loss Layer : http://caffe.berkeleyvision.org/tutorial/layers/softmaxwithloss.html
+#
+
+
+name: "CaffeNet_vJamit"	# レイヤー定義ファイルの名前
+layer { #
+  name: "data"	# レイヤー名
+  type: "Data"	# レイヤータイプ(Data,Convolution,poolなど)
+  top: "data"	# 出力されるblobの名前(画像データ)
+  top: "label"	# 出力されるblobの名前(ラベル)
+  include {	# phase(TRAIN)時に本レイヤーを利用する指定
+    phase: TRAIN
+  }
+  transform_param {	# 前処理をするためのパラメータを指定
+    mirror: true	# 入力画像をランダムに左右反転
+    crop_size: 227	# 指定したサイズでランダムに切り取る(正方形)
+    #mean_file: "examples/jamit/jamit_mean.binaryproto" # 平均画像へのファイルパス
+  }
+  data_param {	# Dataレイヤーのパラメータ
+    source: "examples/jamit/jamit_train_lmdb" # 学習用データへのファイルパス
+    batch_size: 50	# バッチサイズ
+    backend: LMDB	# データベースの形式(LMDBまたはLEVELDB)
+  }
+}
+layer {
+  name: "data"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {	# phase(TEST)時に本レイヤーを利用する指定
+    phase: TEST
+  }
+  transform_param {	# 前処理をするためのパラメータ
+    mirror: false
+    crop_size: 227	# 指定したサイズでランダムに切り取る(正方形)
+    #mean_file: "examples/jamit/jamit_mean.binaryproto" # 平均画像へのファイルパス
+  }
+  data_param {	# Dataレイヤーのパラメータ
+    source: "examples/jamit/jamit_val_lmdb"	# 評価用データへのファイルパス
+    batch_size: 40	# バッチサイズ
+    backend: LMDB	# データベースの形式(LMDBまたはLEVELDB)
+  }
+}
+layer {
+  name: "conv1"		# レイヤー名
+  type: "Convolution"	# レイヤータイプ(Data,Convolution,poolなど)
+  bottom: "data"	# 入力するblobの名前(画像データ)
+  top: "conv1"		# 出力されるblobの名前(画像データ)
+  param {		# 重みに乗算するパラメータ
+    lr_mult: 1		# learning rate
+    decay_mult: 1	# decay
+  }
+  param {		# バイアスに乗算するパラメータ
+    lr_mult: 2		# learning rate
+    decay_mult: 0	# decay
+  }
+  convolution_param { 	# Convolutionレイヤーのパラメータ
+    num_output: 96	# フィルタの数(必須)
+    kernel_size: 11	# カーネルのサイズ(正方形の一辺)(必須)
+    stride: 4		# カーネルをスライドさせる間隔(ピクセル数)
+    weight_filler {	# 重みの初期値を設定するためのパラメータを指定((できる限り明記)
+      type: "gaussian"	# デフォルトはconstant
+      std: 0.01		# gaussianのパラメータ
+    }
+    bias_filler {	# バイアスの初期値を設定するためのパラメータを指定
+      type: "constant"	# デフォルトはconstant
+      value: 0		# constantのパラメータ
+    }
+  }
+}
+layer {
+  name: "relu1"		# レイヤー名
+  type: "ReLU"		# レイヤータイプ（活性化関数ReLU）
+  bottom: "conv1"	# 入力するblobの名前(画像データ)
+  top: "conv1"		# 出力されるblobの名前(画像データ)
+}
+layer {
+  name: "pool1"		# レイヤー名
+  type: "Pooling"	# レイヤータイプ(Pooling層)
+  bottom: "conv1"	# 入力するblobの名前(画像データ)
+  top: "pool1"		# 出力されるblobの名前(画像データ)
+  pooling_param {	# Poolingレイヤーのパラメータ
+    pool: MAX		# Poolingの種類
+    kernel_size: 3	# カーネルのサイズ(正方形の一辺)(必須)
+    stride: 2		# カーネルをスライドさせる間隔(ピクセル数)
+  }
+}
+layer {			# 複数の特徴マップ間で正規化
+  name: "norm1"		# レイヤー名
+  type: "LRN"		# レイヤータイプ（正規化）
+  bottom: "pool1"	# 入力するblobの名前(画像データ)
+  top: "norm1"		# 出力されるblobの名前(画像データ)
+  lrn_param {		# LRNレイヤーのパラメータ
+    local_size: 5	# cross channelの場合は特徴マップの数
+			# within channelの場合は対象領域の一辺
+    alpha: 0.0001	# スケーリングパラメータ(デフォルトは1)
+    beta: 0.75		# スケーリングパラメータ(デフォルトは5)
+  }
+}
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "norm1"
+  top: "conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    pad: 2
+    kernel_size: 5
+    group: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "conv2"
+  top: "conv2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "norm2"
+  type: "LRN"
+  bottom: "pool2"
+  top: "norm2"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "norm2"
+  top: "conv3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 384
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3"
+  type: "ReLU"
+  bottom: "conv3"
+  top: "conv3"
+}
+layer {
+  name: "conv4"
+  type: "Convolution"
+  bottom: "conv3"
+  top: "conv4"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 384
+    pad: 1
+    kernel_size: 3
+    group: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layer {
+  name: "relu4"
+  type: "ReLU"
+  bottom: "conv4"
+  top: "conv4"
+}
+layer {
+  name: "conv5"
+  type: "Convolution"
+  bottom: "conv4"
+  top: "conv5"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    pad: 1
+    kernel_size: 3
+    group: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layer {
+  name: "relu5"
+  type: "ReLU"
+  bottom: "conv5"
+  top: "conv5"
+}
+layer {
+  name: "pool5"
+  type: "Pooling"
+  bottom: "conv5"
+  top: "pool5"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "fc6"		# レイヤー名
+  type: "InnerProduct"	# レイヤータイプ（全結合層）
+  bottom: "pool5"	# 入力するblobの名前(画像データ)
+  top: "fc6"		# 出力されるblobの名前
+  param {		# 重みに乗算するパラメータ
+    lr_mult: 1		# learning rate
+    decay_mult: 1	# decay weight
+  }
+  param {		# バイアスに乗算するパラメータ
+    lr_mult: 2		# learning rate
+    decay_mult: 0	# decay weight
+  }
+  inner_product_param { # Inner Product Layerのパラメータ
+    num_output: 4096	# 出力数
+    weight_filler {	# 重みの初期値を設定するためのパラメータを指定
+      type: "gaussian"	# デフォルトはconstant
+      std: 0.005	# gaussianのパラメータ
+    }
+    bias_filler {	# バイアスの初期値を設定するためのパラメータを指定
+      type: "constant"	# デフォルトはconstant
+      value: 1		# constantのパラメータ
+    }
+  }
+}
+layer {
+  name: "relu6"
+  type: "ReLU"
+  bottom: "fc6"
+  top: "fc6"
+}
+layer {
+  name: "drop6"		# レイヤー名
+  type: "Dropout"	# レイヤータイプ(Dropout層)
+  bottom: "fc6"		# 入力するblobの名前
+  top: "fc6"		# 出力されるblobの名前
+  dropout_param {	# Dropout Layerのパラメータ
+    dropout_ratio: 0.5	# デフォルトは0.5
+  }
+}
+layer {
+  name: "fc7"
+  type: "InnerProduct"
+  bottom: "fc6"
+  top: "fc7"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 4096
+    weight_filler {
+      type: "gaussian"
+      std: 0.005
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layer {
+  name: "relu7"
+  type: "ReLU"
+  bottom: "fc7"
+  top: "fc7"
+}
+layer {
+  name: "drop7"
+  type: "Dropout"
+  bottom: "fc7"
+  top: "fc7"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc8tl" 		# fc8ではreference modelと重複するため名前を変更
+  type: "InnerProduct"
+  bottom: "fc7"
+  top: "fc8tl"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2	# 2グループの分類のため最終出力数は2に設定
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "accuracy"		# レイヤー名
+  type: "Accuracy"		# レイヤータイプ(正解率を求める)
+  bottom: "fc8tl"
+  bottom: "label"
+  top: "accuracy"
+  include {	# phase(TEST)時に本レイヤーを利用する指定
+    phase: TEST
+  }
+}
+layer {
+  name: "loss"			# レイヤー名
+  type: "SoftmaxWithLoss"	# レイヤータイプ（ソフトマックス損失の計算）
+  bottom: "fc8tl"
+  bottom: "label"
+  top: "loss"
+}

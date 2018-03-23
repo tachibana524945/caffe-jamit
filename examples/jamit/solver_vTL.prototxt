@@ -1,0 +1,21 @@
+#
+# Solver定義ファイル(転移学習用)
+# $CAFFE_ROOT/models/bvlc_reference_caffenet/solver.prototxtを改変
+# 
+# Solver : http://caffe.berkeleyvision.org/tutorial/solver.html
+# Solver Prototxt : https://github.com/BVLC/caffe/wiki/Solver-Prototxt
+
+net: "examples/jamit/train_val_vTL.prototxt"	# ネットワーク定義ファイル名(転移学習用)
+test_iter: 6		# テストの繰り返し回数(batch_sizeが40で6回繰り返す場合は全体で240枚テストすることになる)
+test_interval: 1000	# テストを実行する間隔(1000回の学習ごとにテスト)
+base_lr: 0.001		# 学習率
+lr_policy: "step"	# 学習率の算出方法(fixed,step,exp,inv,sigmoidなど)
+gamma: 0.1		# 学習率を計算する際のパラメータ
+stepsize: 100		# 指定回数ごとに学習率を落とす(step選択時)
+display: 20		# 学習状況を表示する間隔
+max_iter: 5000		# 学習の最大繰り返し回数
+momentum: 0.9		# SGDで使用されるパラメータ
+weight_decay: 0.0005	# 正則化係数の重みパラメータ
+snapshot: 250		# モデルを保存する間隔
+snapshot_prefix: "examples/jamit/models/jamit_tl_train" # 保存するモデルの接頭文字列
+solver_mode: GPU	# GPU利用かCPU利用かを指定
