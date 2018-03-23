@@ -85,17 +85,17 @@ caffe直下で以下のコマンドを実行する．
 
 平均画像を使用する場合は，以下の処理を適宜追加すればよい．
 
-(1) make_mean_image.shを用いて，平均画像(binaryproto形式)を作成する(caffe/直下)
+(1) make_mean_image.shを用いて，平均画像(binaryproto形式)を作成する(caffe/で実行)
 
 `./examples/jamit/make_mean_image.sh `
 
-(2) convert_binaryproto_to_npy.pyを用いて，binaryproto形式をnpy形式に変更する(examples/jamit/直下)
+(2) convert_binaryproto_to_npy.pyを用いて，binaryproto形式をnpy形式に変更する(examples/jamit/で実行)
 
 `python convert_binaryproto_to_npy.py jamit_mean.binaryproto jamit_mean.npy`
 
 (3) ネットワーク定義ファイルtrain_val.prototxtの平均画像へのファイルパスのコメントを外す
 
-(4) 学習実行後，分類テストで使用するclassify.pyの平均画像の読み込み命令のコメントを外し，実行時に平均画像を指定する．(examples/jamit/直下)
+(4) 学習実行後，分類テストで使用するclassify.pyの平均画像の読み込み命令のコメントを外し，実行時に平均画像を指定する．(examples/jamit/で実行)
 
     python classify.py --model_def=deploy.prototxt 
                        --mean_file=jamit_mean.npy 
